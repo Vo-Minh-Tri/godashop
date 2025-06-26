@@ -18,8 +18,10 @@
     <script type="text/javascript" src="public/vendor/star-rating/js/star-rating.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="public/vendor/format/number_format.js"></script>
+    <script src="public/vendor/jquery-validation-1.19.3/dist/jquery.validate.min.js"></script>
     <script type="text/javascript" src="public/js/script.js"></script>
 </head>
+<?php global $c, $a; ?>
 
 <body>
     <header>
@@ -29,12 +31,15 @@
         <div class="top-navbar container-fluid">
             <div class="menu-mb">
                 <a href="javascript:void(0)" class="btn-close" onclick="closeMenuMobile()">×</a>
-                <a class="active" href="/">Trang chủ</a>
-                <a href="?c=product">Sản phẩm</a>
-                <a href="chinh-sach-doi-tra.html">Chính sách đổi trả</a>
-                <a href="chinh-sach-thanh-toan.html">Chính sách thanh toán</a>
-                <a href="chinh-sach-giao-hang.html">Chính sách giao hàng</a>
-                <a href="lien-he.html">Liên hệ</a>
+                <a class="<?= $c == 'home' ? 'active' : '' ?>" href="/">Trang chủ</a>
+                <a class="<?= $c == 'product' ? 'active' : '' ?>" href="?c=product">Sản phẩm</a>
+                <a class="<?= $a == 'returnPolicy' ? 'active' : '' ?>" href="?c=information&a=returnPolicy">Chính sách
+                    đổi trả</a>
+                <a class="<?= $a == 'paymentPolicy' ? 'active' : '' ?>" href="?c=information&a=paymentPolicy">Chính sách
+                    thanh toán</a>
+                <a class="<?= $a == 'deliveryPolicy' ? 'active' : '' ?>" href="?c=information&a=deliveryPolicy">Chính
+                    sách giao hàng</a>
+                <a class="<?= $c == 'contact' ? 'active' : '' ?>" href="?c=contact&a=form">Liên hệ</a>
             </div>
             <div class="row">
                 <div class="hidden-lg hidden-md col-sm-2 col-xs-1">
@@ -86,14 +91,14 @@
                     <form class="header-form" action="">
                         <div class="input-group">
                             <input type="search" class="form-control search" placeholder="Nhập từ khóa tìm kiếm"
-                                name="search" autocomplete="off" value="">
+                                name="search" autocomplete="off" value="<?= $search ?? '' ?>">
                             <div class="input-group-btn">
                                 <button class="btn bt-search bg-color" type="submit"><i class="fa fa-search"
                                         style="color:#fff"></i>
                                 </button>
                             </div>
                             <input type="hidden" name="c" value="product">
-                            <input type="hidden" name="a" value="list">
+
                         </div>
                         <div class="search-result">
                         </div>
@@ -107,14 +112,18 @@
     <nav class="navbar navbar-default desktop-menu">
         <div class="container">
             <ul class="nav navbar-nav navbar-left hidden-sm hidden-xs">
-                <li class="active">
+                <li class="<?= $c == 'home' ? 'active' : '' ?>">
                     <a href="/">Trang chủ</a>
                 </li>
-                <li><a href="?c=product">Sản phẩm </a></li>
-                <li><a href="chinh-sach-doi-tra.html">Chính sách đổi trả</a></li>
-                <li><a href="chinh-sach-thanh-toan.html">Chính sách thanh toán</a></li>
-                <li><a href="chinh-sach-giao-hang.html">Chính sách giao hàng</a></li>
-                <li><a href="lien-he.html">Liên hệ</a></li>
+                <li class="<?= $c == 'product' ? 'active' : '' ?>"><a href="?c=product">Sản phẩm </a></li>
+                <li class="<?= $a == 'returnPolicy' ? 'active' : '' ?>"><a href="?c=information&a=returnPolicy">Chính
+                        sách đổi trả</a></li>
+                <li class="<?= $a == 'paymentPolicy' ? 'active' : '' ?>"><a href="?c=information&a=paymentPolicy">Chính
+                        sách thanh toán</a></li>
+                <li class="<?= $a == 'deliveryPolicy' ? 'active' : '' ?>"><a
+                        href="?c=information&a=deliveryPolicy">Chính
+                        sách giao hàng</a></li>
+                <li class="<?= $c == 'contact' ? 'active' : '' ?>"><a href="?c=contact&a=form">Liên hệ</a></li>
             </ul>
             <span class="hidden-lg hidden-md experience">Trải nghiệm cùng sản phẩm của Goda</span>
             <ul class="nav navbar-nav navbar-right">

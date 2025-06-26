@@ -20,28 +20,18 @@
                     <div class="category">
                         <h5>Danh mục sản phẩm</h5>
                         <ul>
-                            <li class="active">
-                                <a href="#" title="Tất cả sản phẩm" target="_self">Tất cả sản phẩm
+                            <li class="<?= empty($category_id) ? 'active' : '' ?>">
+                                <a href="?c=product" title="Tất cả sản phẩm" target="_self">Tất cả sản phẩm
                                 </a>
                             </li>
-                            <li class="">
-                                <a href="#" title="Kem Chống Nắng" target="_self">Kem Chống Nắng</a>
-                            </li>
-                            <li class="">
-                                <a href="#" title="Kem Dưỡng Da" target="_self">Kem Dưỡng Da</a>
-                            </li>
-                            <li class="">
-                                <a href="#" title="Kem Trị Mụn" target="_self">Kem Trị Mụn</a>
-                            </li>
-                            <li class="">
-                                <a href="#" title="Kem Trị Thâm Nám" target="_self">Kem Trị Thâm Nám</a>
-                            </li>
-                            <li class="">
-                                <a href="#" title="Sữa Rửa Mặt" target="_self">Sữa Rửa Mặt</a>
-                            </li>
-                            <li class="">
-                                <a href="#" title="Sữa Tắm" target="_self">Sữa Tắm</a>
-                            </li>
+                            <?php foreach ($categories as $category): ?>
+                                <li class="<?= $category_id == $category->getId() ? 'active' : '' ?>">
+                                    <a href="?c=product&category_id=<?= $category->getId() ?>"
+                                        title="<?= $category->getName() ?>" target="_self">
+                                        <?= $category->getName() ?>
+                                    </a>
+                                </li>
+                            <?php endforeach ?>
                         </ul>
                     </div>
                     <div class="price-range">
@@ -49,35 +39,40 @@
                         <ul>
                             <li>
                                 <label for="filter-less-100">
-                                    <input type="radio" id="filter-less-100" name="filter-price" value="0-100000">
+                                    <input type="radio" id="filter-less-100" name="filter-price" value="0-100000"
+                                        <?= $priceRange == '0-100000' ? 'checked' : '' ?>>
                                     <i class="fa"></i>
                                     Giá dưới 100.000đ
                                 </label>
                             </li>
                             <li>
                                 <label for="filter-100-200">
-                                    <input type="radio" id="filter-100-200" name="filter-price" value="100000-200000">
+                                    <input type="radio" id="filter-100-200" name="filter-price" value="100000-200000"
+                                        <?= $priceRange == '100000-200000' ? 'checked' : '' ?>>
                                     <i class="fa"></i>
                                     100.000đ - 200.000đ
                                 </label>
                             </li>
                             <li>
                                 <label for="filter-200-300">
-                                    <input type="radio" id="filter-200-300" name="filter-price" value="200000-300000">
+                                    <input type="radio" id="filter-200-300" name="filter-price" value="200000-300000"
+                                        <?= $priceRange == '200000-300000' ? 'checked' : '' ?>>
                                     <i class="fa"></i>
                                     200.000đ - 300.000đ
                                 </label>
                             </li>
                             <li>
                                 <label for="filter-300-500">
-                                    <input type="radio" id="filter-300-500" name="filter-price" value="300000-500000">
+                                    <input type="radio" id="filter-300-500" name="filter-price" value="300000-500000"
+                                        <?= $priceRange == '300000-500000' ? 'checked' : '' ?>>
                                     <i class="fa"></i>
                                     300.000đ - 500.000đ
                                 </label>
                             </li>
                             <li>
                                 <label for="filter-500-1000">
-                                    <input type="radio" id="filter-500-1000" name="filter-price" value="500000-1000000">
+                                    <input type="radio" id="filter-500-1000" name="filter-price" value="500000-1000000"
+                                        <?= $priceRange == '500000-1000000' ? 'checked' : '' ?>>
                                     <i class="fa"></i>
                                     500.000đ - 1.000.000đ
                                 </label>
@@ -85,7 +80,8 @@
                             <li>
                                 <label for="filter-greater-1000">
                                     <input type="radio" id="filter-greater-1000" name="filter-price"
-                                        value="1000000-greater">
+                                        value="1000000-greater"
+                                        <?= $priceRange == '1000000-greater' ? 'checked' : '' ?>>
                                     <i class="fa"></i>
                                     Giá trên 1.000.000đ
                                 </label>
@@ -103,322 +99,41 @@
                         <div class="pull-right">
                             <label class="left hidden-xs" for="sort-select">Sắp xếp: </label>
                             <select id="sort-select">
-                                <option value="" selected>Mặc định</option>
-                                <option value="price-asc">Giá tăng dần</option>
-                                <option value="price-desc">Giá giảm dần</option>
-                                <option value="alpha-asc">Từ A-Z</option>
-                                <option value="alpha-desc">Từ Z-A</option>
-                                <option value="created-asc">Cũ đến mới</option>
-                                <option value="created-desc">Mới đến cũ</option>
+                                <option value="">Mặc định</option>
+                                <option value="price-asc" <?= $sort == 'price-asc' ? 'selected' : '' ?>>Giá tăng dần
+                                </option>
+                                <option value="price-desc" <?= $sort == 'price-desc' ? 'selected' : '' ?>>Giá giảm dần
+                                </option>
+                                <option value="alpha-asc" <?= $sort == 'alpha-asc' ? 'selected' : '' ?>>Từ A-Z</option>
+                                <option value="alpha-desc" <?= $sort == 'alpha-desc' ? 'selected' : '' ?>>Từ Z-A
+                                </option>
+                                <option value="created-asc" <?= $sort == 'created-asc' ? 'selected' : '' ?>>Cũ đến mới
+                                </option>
+                                <option value="created-desc" <?= $sort == 'created-desc' ? 'selected' : '' ?>>Mới đến cũ
+                                </option>
                             </select>
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="col-xs-6 col-sm-4">
-                        <div class="product-container">
-                            <div class="image">
-                                <img class="img-responsive" src="../upload/images/beaumoreSecretWhiteningCream10g.jpg"
-                                    alt="">
-                            </div>
-                            <div class="product-meta">
-                                <h5 class="name">
-                                    <a class="product-name" href="chi-tiet-san-pham.html"
-                                        title="Kem làm trắng da 5 trong 1 Beaumore Secret Whitening Cream">Kem làm trắng
-                                        da 5 trong 1 Beaumore Secret Whitening Cream</a>
-                                </h5>
-                                <div class="product-item-price">
-                                    <span class="product-item-regular">200,000₫</span>
-                                    <span class="product-item-discount">190,000₫</span>
-                                </div>
-                            </div>
-                            <div class="button-product-action clearfix">
-                                <div class="cart icon">
-                                    <a class="btn btn-outline-inverse buy" product-id="2" href="javascript:void(0)"
-                                        title="Thêm vào giỏ">
-                                        Thêm vào giỏ <i class="fa fa-shopping-cart"></i>
-                                    </a>
-                                </div>
-                                <div class="quickview icon">
-                                    <a class="btn btn-outline-inverse" href="chi-tiet-san-pham.html" title="Xem nhanh">
-                                        Xem chi tiết <i class="fa fa-eye"></i>
-                                    </a>
-                                </div>
-                            </div>
+                    <?php foreach ($products as $product): ?>
+                        <div class="col-xs-6 col-sm-4">
+                            <?php require 'layout/product.php' ?>
                         </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4">
-                        <div class="product-container">
-                            <div class="image">
-                                <img class="img-responsive" src="../upload/images/kemLamSangVungDaBikini.jpg" alt="">
-                            </div>
-                            <div class="product-meta">
-                                <h5 class="name">
-                                    <a class="product-name" href="chi-tiet-san-pham.html"
-                                        title="Kem làm sáng vùng da bikini Beaumore- 50ml">Kem làm sáng vùng da bikini
-                                        Beaumore- 50ml</a>
-                                </h5>
-                                <div class="product-item-price">
-                                    <span class="product-item-discount">849,000₫</span>
-                                </div>
-                            </div>
-                            <div class="button-product-action clearfix">
-                                <div class="quickview icon">
-                                    <a class="btn btn-outline-inverse" href="chi-tiet-san-pham.html" title="Xem nhanh">
-                                        Xem chi tiết <i class="fa fa-eye"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4">
-                        <div class="product-container">
-                            <div class="image">
-                                <img class="img-responsive" src="../upload/images/suaRuaMatNgheBeaumore100g.jpg" alt="">
-                            </div>
-                            <div class="product-meta">
-                                <h5 class="name">
-                                    <a class="product-name" href="chi-tiet-san-pham.html"
-                                        title="Sữa rửa mặt nghệ Beaumore Mới- 100g">Sữa rửa mặt nghệ Beaumore Mới-
-                                        100g</a>
-                                </h5>
-                                <div class="product-item-price">
-                                    <span class="product-item-discount">250,000₫</span>
-                                </div>
-                            </div>
-                            <div class="button-product-action clearfix">
-                                <div class="cart icon">
-                                    <a class="btn btn-outline-inverse buy" product-id="4" href="javascript:void(0)"
-                                        title="Thêm vào giỏ">
-                                        Thêm vào giỏ <i class="fa fa-shopping-cart"></i>
-                                    </a>
-                                </div>
-                                <div class="quickview icon">
-                                    <a class="btn btn-outline-inverse" href="chi-tiet-san-pham.html" title="Xem nhanh">
-                                        Xem chi tiết <i class="fa fa-eye"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4">
-                        <div class="product-container">
-                            <div class="image">
-                                <img class="img-responsive" src="../upload/images/kemLuaLamDepDaBeaumore.jpg" alt="">
-                            </div>
-                            <div class="product-meta">
-                                <h5 class="name">
-                                    <a class="product-name" href="chi-tiet-san-pham.html"
-                                        title="Kem lụa làm đẹp da Beaumore- 30ml">Kem lụa làm đẹp da Beaumore- 30ml</a>
-                                </h5>
-                                <div class="product-item-price">
-                                    <span class="product-item-discount">1,500,000₫</span>
-                                </div>
-                            </div>
-                            <div class="button-product-action clearfix">
-                                <div class="cart icon">
-                                    <a class="btn btn-outline-inverse buy" product-id="5" href="javascript:void(0)"
-                                        title="Thêm vào giỏ">
-                                        Thêm vào giỏ <i class="fa fa-shopping-cart"></i>
-                                    </a>
-                                </div>
-                                <div class="quickview icon">
-                                    <a class="btn btn-outline-inverse" href="chi-tiet-san-pham.html" title="Xem nhanh">
-                                        Xem chi tiết <i class="fa fa-eye"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4">
-                        <div class="product-container">
-                            <div class="image">
-                                <img class="img-responsive" src="../upload/images/kemLamDepTucThiInstantBeauMore.jpg"
-                                    alt="">
-                            </div>
-                            <div class="product-meta">
-                                <h5 class="name">
-                                    <a class="product-name" href="chi-tiet-san-pham.html"
-                                        title="Kem làm đẹp tức thì  Instant Beaumore">Kem làm đẹp tức thì Instant
-                                        Beaumore</a>
-                                </h5>
-                                <div class="product-item-price">
-                                    <span class="product-item-discount">762,000₫</span>
-                                </div>
-                            </div>
-                            <div class="button-product-action clearfix">
-                                <div class="cart icon">
-                                    <a class="btn btn-outline-inverse buy" product-id="6" href="javascript:void(0)"
-                                        title="Thêm vào giỏ">
-                                        Thêm vào giỏ <i class="fa fa-shopping-cart"></i>
-                                    </a>
-                                </div>
-                                <div class="quickview icon">
-                                    <a class="btn btn-outline-inverse" href="chi-tiet-san-pham.html" title="Xem nhanh">
-                                        Xem chi tiết <i class="fa fa-eye"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4">
-                        <div class="product-container">
-                            <div class="image">
-                                <img class="img-responsive" src="../upload/images/suaTamSandrasShowerGel.jpg" alt="">
-                            </div>
-                            <div class="product-meta">
-                                <h5 class="name">
-                                    <a class="product-name" href="chi-tiet-san-pham.html"
-                                        title="Sữa tắm Sandras Shower Gel">Sữa tắm Sandras Shower Gel</a>
-                                </h5>
-                                <div class="product-item-price">
-                                    <span class="product-item-discount">180,000₫</span>
-                                </div>
-                            </div>
-                            <div class="button-product-action clearfix">
-                                <div class="cart icon">
-                                    <a class="btn btn-outline-inverse buy" product-id="7" href="javascript:void(0)"
-                                        title="Thêm vào giỏ">
-                                        Thêm vào giỏ <i class="fa fa-shopping-cart"></i>
-                                    </a>
-                                </div>
-                                <div class="quickview icon">
-                                    <a class="btn btn-outline-inverse" href="chi-tiet-san-pham.html" title="Xem nhanh">
-                                        Xem chi tiết <i class="fa fa-eye"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4">
-                        <div class="product-container">
-                            <div class="image">
-                                <img class="img-responsive" src="../upload/images/suaDuongTheSandraschai88ml.jpg"
-                                    alt="">
-                            </div>
-                            <div class="product-meta">
-                                <h5 class="name">
-                                    <a class="product-name" href="chi-tiet-san-pham.html"
-                                        title="Sữa dưỡng thể Sandras chai 88ml">Sữa dưỡng thể Sandras chai 88ml</a>
-                                </h5>
-                                <div class="product-item-price">
-                                    <span class="product-item-discount">180,000₫</span>
-                                </div>
-                            </div>
-                            <div class="button-product-action clearfix">
-                                <div class="cart icon">
-                                    <a class="btn btn-outline-inverse buy" product-id="8" href="javascript:void(0)"
-                                        title="Thêm vào giỏ">
-                                        Thêm vào giỏ <i class="fa fa-shopping-cart"></i>
-                                    </a>
-                                </div>
-                                <div class="quickview icon">
-                                    <a class="btn btn-outline-inverse" href="chi-tiet-san-pham.html" title="Xem nhanh">
-                                        Xem chi tiết <i class="fa fa-eye"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4">
-                        <div class="product-container">
-                            <div class="image">
-                                <img class="img-responsive" src="../upload/images/suaTamSandrasMychai250ml.jpg" alt="">
-                            </div>
-                            <div class="product-meta">
-                                <h5 class="name">
-                                    <a class="product-name" href="chi-tiet-san-pham.html"
-                                        title="Sữa tắm Sandras Mỹ chai 250ml">Sữa tắm Sandras Mỹ chai 250ml</a>
-                                </h5>
-                                <div class="product-item-price">
-                                    <span class="product-item-discount">210,000₫</span>
-                                </div>
-                            </div>
-                            <div class="button-product-action clearfix">
-                                <div class="cart icon">
-                                    <a class="btn btn-outline-inverse buy" product-id="9" href="javascript:void(0)"
-                                        title="Thêm vào giỏ">
-                                        Thêm vào giỏ <i class="fa fa-shopping-cart"></i>
-                                    </a>
-                                </div>
-                                <div class="quickview icon">
-                                    <a class="btn btn-outline-inverse" href="chi-tiet-san-pham.html" title="Xem nhanh">
-                                        Xem chi tiết <i class="fa fa-eye"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4">
-                        <div class="product-container">
-                            <div class="image">
-                                <img class="img-responsive" src="../upload/images/kemDuongTrangDaNgayVaDem.jpg" alt="">
-                            </div>
-                            <div class="product-meta">
-                                <h5 class="name">
-                                    <a class="product-name" href="chi-tiet-san-pham.html"
-                                        title="Kem Dưỡng Trắng Da Ngày vs Đêm">Kem Dưỡng Trắng Da Ngày vs Đêm</a>
-                                </h5>
-                                <div class="product-item-price">
-                                    <span class="product-item-discount">265,000₫</span>
-                                </div>
-                            </div>
-                            <div class="button-product-action clearfix">
-                                <div class="cart icon">
-                                    <a class="btn btn-outline-inverse buy" product-id="10" href="javascript:void(0)"
-                                        title="Thêm vào giỏ">
-                                        Thêm vào giỏ <i class="fa fa-shopping-cart"></i>
-                                    </a>
-                                </div>
-                                <div class="quickview icon">
-                                    <a class="btn btn-outline-inverse" href="chi-tiet-san-pham.html" title="Xem nhanh">
-                                        Xem chi tiết <i class="fa fa-eye"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4">
-                        <div class="product-container">
-                            <div class="image">
-                                <img class="img-responsive" src="../upload/images/kemNenTrangDiemDuongDaSandrasBB.jpg"
-                                    alt="">
-                            </div>
-                            <div class="product-meta">
-                                <h5 class="name">
-                                    <a class="product-name" href="chi-tiet-san-pham.html"
-                                        title="Kem nền trang điểm dưỡng da Sandras BB 24h- 15ml">Kem nền trang điểm
-                                        dưỡng da Sandras BB 24h- 15ml</a>
-                                </h5>
-                                <div class="product-item-price">
-                                    <span class="product-item-discount">321,000₫</span>
-                                </div>
-                            </div>
-                            <div class="button-product-action clearfix">
-                                <div class="cart icon">
-                                    <a class="btn btn-outline-inverse buy" product-id="11" href="javascript:void(0)"
-                                        title="Thêm vào giỏ">
-                                        Thêm vào giỏ <i class="fa fa-shopping-cart"></i>
-                                    </a>
-                                </div>
-                                <div class="quickview icon">
-                                    <a class="btn btn-outline-inverse" href="chi-tiet-san-pham.html" title="Xem nhanh">
-                                        Xem chi tiết <i class="fa fa-eye"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach ?>
                 </div>
                 <!-- Paging -->
                 <ul class="pagination pull-right">
-                    <li class="active"><a href="javascript:void(0)" onclick="goToPage(1)">1</a></li>
-                    <li class=""><a href="javascript:void(0)" onclick="goToPage(2)">2</a></li>
-                    <li class=""><a href="javascript:void(0)" onclick="goToPage(3)">3</a></li>
-                    <li><a href="javascript:void(0)" onclick="goToPage(2)">&raquo;</a></li>
+                    <li><a href="javascript:void(0)" onclick="goToPage(<?= $page - 1 ?> )">Trước</a></li>
+                    <?php for ($i = 1; $i <= $totalPage; $i++): ?>
+                        <li class="<?= $page == $i ? 'active' : '' ?>"><a href="javascript:void(0)"
+                                onclick="goToPage(<?= $i ?>)"><?= $i ?></a></li>
+                    <?php endfor ?>
+                    <li><a href="javascript:void(0)" onclick="goToPage(<?= $page + 1 ?>)">Sau</a></li>
                 </ul>
                 <!-- End paging -->
             </div>
         </div>
     </div>
 </main>
+
 <?php require 'layout/footer.php' ?>
